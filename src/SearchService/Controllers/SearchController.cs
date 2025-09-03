@@ -30,7 +30,7 @@ public class SearchController : ControllerBase
         {
             "finished" => query.Match(x => x.AuctionEnd < DateTime.UtcNow),
             "endingSoon" => query.Match(x => x.AuctionEnd < DateTime.UtcNow.AddHours(6) && x.AuctionEnd > DateTime.UtcNow),
-            _ => query.Match(x => x.AuctionEnd > DateTimeOffset.UtcNow)
+            _ => query.Match(x => x.AuctionEnd > DateTime.UtcNow)
         };
 
         if (!string.IsNullOrEmpty(seachParams.Seller))
@@ -42,7 +42,7 @@ public class SearchController : ControllerBase
         {
             query.Match(x=> x.Winner == seachParams.Winner);
         }
-        
+
         query.PageNumber(seachParams.PageNumber);
         query.PageSize(seachParams.PageSize);
 
