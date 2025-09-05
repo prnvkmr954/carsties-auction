@@ -10,6 +10,4 @@
     <PackageReference Include="AutoMapper" Version="15.0.1" />
     <PackageReference Include="MongoDB.Entities" Version="24.1.1" />
   </ItemGroup>
-
-
 </Project>

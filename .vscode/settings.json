@@ -16,5 +16,12 @@
     "vs-kubernetes": { 
     "vs-kubernetes.minikube-show-information-expiration": "2024-01-13T07:11:28.636Z", 
     "disable-linters": ["resource-limits"] 
-}, 
+},
+"mdb.presetConnections": [
+    {
+        "name": "Preset Connection",
+        "connectionString": "mongodb://localhost:27017"
+    }
+],
+
 }
