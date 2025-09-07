@@ -59,11 +59,14 @@ public class AuctionsController : ControllerBase
         //TODO: add current user as seller
         auction.Seller = "Test Pranav";
         _context.Add(auction);
-        var results = await _context.SaveChangesAsync() > 0;
 
         var newAuction = _mapper.Map<AuctionDto>(auction);
 
         await _publishEndpoint.Publish(_mapper.Map<AuctionCreated>(newAuction));
+
+
+        var results = await _context.SaveChangesAsync() > 0;
+
 
 
         if (!results) return BadRequest("Could not save changes to the DB");
