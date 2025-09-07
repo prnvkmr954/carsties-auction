@@ -1,5 +1,7 @@
+using MassTransit;
 using Polly;
 using Polly.Extensions.Http;
+using SearchService.Consumers;
 using SearchService.Data;
 using SearchService.Services;
 using System.Net;
@@ -8,7 +10,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpClient<AuctionSvcHttpClient>().AddPolicyHandler(GetPolicy());
+
+// adding rabbit mq messaging service
+builder.Services.AddMassTransit(x =>
+{
+        x.AddConsumersFromNamespaceContaining<AuctionCreatedConsumer>();
+
+        x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("search", false));
+
+        x.UsingRabbitMq((context, cfg) =>
+        {
+                cfg.ConfigureEndpoints(context);
+        });
+});
 
 var app = builder.Build();
 
@@ -20,6 +36,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 app.MapControllers();
+
 
 app.Lifetime.ApplicationStarted.Register(async () =>
 {
