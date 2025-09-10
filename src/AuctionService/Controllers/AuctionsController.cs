@@ -103,6 +103,7 @@ public class AuctionsController : ControllerBase
 
         return BadRequest("Problem Saving Changes");
     }
+
     [Authorize]
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteAuction(Guid id)
