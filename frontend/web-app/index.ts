@@ -1,6 +1,6 @@
 export type PagedResult<T> = {
     results: T[];
-    pageCount: number;
+    pagecount: number;
     totalCount: number;
 }
 

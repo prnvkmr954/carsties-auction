@@ -9,6 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "flowbite": "^3.1.2",
+    "flowbite-react": "^0.12.9",
+    "init": "^0.1.2",
     "next": "15.5.3",
     "react": "19.1.0",
     "react-countdown": "^2.3.6",
