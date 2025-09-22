@@ -7,6 +7,11 @@ services:
       - 5432:5432
     volumes:
       - /var/lib/postresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   mongodb:
     image: mongo
     environment:
@@ -16,11 +21,30 @@ services:
       - 27017:27017
     volumes:
       - /var/lib/mongodb/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mongosh",
+          "--quiet",
+          "127.0.0.1/test",
+          "--eval",
+          "'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:4-management-alpine
     ports:
       - 5672:5672
       - 15672:15672
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 5
   auction-svc:
     image: prnvkmr/auction-svc:latest
     build:
@@ -35,8 +59,10 @@ services:
     ports:
       - 7001:80
     depends_on:
-      - postgres
-      - rabbitmq
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
   search-svc:
     image: prnvkmr/search-svc:latest
     build:
@@ -51,8 +77,10 @@ services:
     ports:
       - 7002:80
     depends_on:
-      - mongodb
-      - rabbitmq
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
   identity-svc:
     image: prnvkmr/identity-svc:latest
     build:
@@ -65,7 +93,8 @@ services:
     ports:
       - 5001:80
     depends_on:
-      - postgres
+      postgres:
+       condition: service_healthy
   gateway-svc:
     image: prnvkmr/gateway-svc:latest
     build:
