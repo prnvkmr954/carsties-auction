@@ -1,9 +1,12 @@
 
+import Listing from "./auctions/Listing";
 
-export default function Home() {
+export default async function Home() {
+
+  
   return (
      <div>
-      Content goes here
+        <Listing />
      </div>
   );
 }
