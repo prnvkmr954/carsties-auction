@@ -9,6 +9,7 @@ import Filters from "./Filters";
 import { useParamsStore } from "@/hooks/useParamsStore";
 import { useShallow } from "zustand/shallow";
 import qs from "query-string";
+import EmptyFilter from "../components/EmptyFilter";
 
 export default function Listing() {
   
@@ -17,7 +18,8 @@ export default function Listing() {
     pageNumber: state.pageNumber,
     pageSize: state.pageSize,
     searchTerm: state.searchTerm,
-    orderBy: state.orderBy
+    orderBy: state.orderBy,
+    filterBy: state.filterBy
   })));
 
 
@@ -41,18 +43,25 @@ export default function Listing() {
   return (
     <>
     <Filters />
+    {data.totalCount === 0 ? (
+      <EmptyFilter showReset />
+    ) : (
+      <>
+          <div className="grid grid-cols-4 gap-6">
+              {data.results.map((auction: any)=> (
+                  <AuctionCard key={auction.id} auction={auction} />
+              ))}
+          </div>
 
-    <div className="grid grid-cols-4 gap-6">
-      {data.results.map((auction: any)=> (
-          <AuctionCard key={auction.id} auction={auction} />
-      ))}
-    </div>
+          <div className="flex justify-center mt-4"> 
+              <AppPagination pageChanged={setPageNumber} 
+                            currentPage={params.pageNumber} 
+                            pagecount={data.pagecount} />
+          </div>
+      </>
+    )}
 
-    <div className="flex justify-center mt-4"> 
-      <AppPagination pageChanged={setPageNumber} 
-                     currentPage={params.pageNumber} 
-                     pagecount={data.pagecount} />
-    </div>
+
 
     </>
    
