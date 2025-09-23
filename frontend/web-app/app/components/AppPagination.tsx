@@ -1,22 +1,20 @@
 'use client'
 import { Pagination } from 'flowbite-react'
-import React, { useState } from 'react'
+
 
 
 type Props = {
     currentPage: number;
     pagecount: number;
+    pageChanged: (page: number) => void;
 }
-export default function AppPagination({currentPage, pagecount}: Props) {
- 
- console.log("PageCount: ", pagecount);
- const [pageNumber, setPageNumber] = useState(currentPage);
+export default function AppPagination({currentPage, pagecount, pageChanged}: Props) {
 
 
   return (
     <Pagination 
-        currentPage={pageNumber}
-        onPageChange={e => setPageNumber(e)}
+        currentPage={currentPage}
+        onPageChange={e => pageChanged(e)}
         totalPages={pagecount}
         layout="pagination"
         showIcons={true}
