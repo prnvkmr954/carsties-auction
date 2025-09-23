@@ -13,4 +13,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         idToken: true,
   } as OIDCConfig<Profile>),
   ],
-})
+}) 
