@@ -3,7 +3,7 @@ import { create } from "zustand";
 type State = {
     pageNumber: number;
     pageSize: number;
-    pageCount: number;
+    pagecount: number;
     searchTerm: string;
 }
 
@@ -15,7 +15,7 @@ type Actions = {
 const initialState: State = {
     pageNumber: 1,
     pageSize: 12,
-    pageCount: 1,
+    pagecount: 1,
     searchTerm: ''
 }
 
