@@ -6,7 +6,7 @@ import React from 'react'
 
 export default function LoginButton() {
   return (
-    <Button outline onClick={() => signIn('id-server', { redirectTo: '/'})}>
+    <Button outline onClick={() => signIn('id-server', { redirectTo: '/'}, {prompt: 'login'})}>
         Login
     </Button>
   )
