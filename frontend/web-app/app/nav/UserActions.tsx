@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Dropdown, DropdownDivider, DropdownItem } from 'flowbite-react'
+import { Dropdown, DropdownDivider, DropdownItem } from 'flowbite-react'
 import { User } from 'next-auth'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
@@ -22,7 +22,10 @@ export default function UserActions({user}: Props) {
                  Auctions won
             </DropdownItem>
             <DropdownItem icon={AiFillCar}>
-                 Sell my car
+              <Link href='/auctions/create'>
+              Sell my car
+              </Link>
+                 
             </DropdownItem>
              <DropdownItem icon={HiCog}>
                  <Link href='/session'>
